@@ -1,7 +1,5 @@
 <% layout("/layouts/boilerplate") %>
-<% const hasMapToken = process.env.MAP_TOKEN && process.env.MAP_TOKEN.startsWith("pk."); %>
 <script>
-  const mapToken = "<%= hasMapToken ? process.env.MAP_TOKEN : '' %>";
   const listing = <%- JSON.stringify(listing) %>;
 </script>
 

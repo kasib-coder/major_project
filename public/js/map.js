@@ -1,36 +1,49 @@
 const mapContainer = document.getElementById("map");
 
-if (
-  !mapContainer ||
-  !mapToken ||
-  !mapToken.startsWith("pk.") ||
-  !listing?.geometry?.coordinates?.length
-) {
-  if (mapContainer) {
+if (!mapContainer) {
+  return;
+}
+
+const coordinates = listing?.geometry?.coordinates;
+
+if (!Array.isArray(coordinates) || coordinates.length < 2) {
+  mapContainer.innerHTML = `
+    <div class="map-empty">
+      <div>
+        <h5 class="mb-2">Map preview unavailable</h5>
+        <p class="mb-0">Location details are still listed below for this property.</p>
+      </div>
+    </div>
+  `;
+} else {
+  const [lng, lat] = coordinates.map(Number);
+
+  if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
     mapContainer.innerHTML = `
       <div class="map-empty">
         <div>
           <h5 class="mb-2">Map preview unavailable</h5>
-          <p class="mb-0">Location details are still listed below for this property.</p>
+          <p class="mb-0">The saved coordinates are invalid.</p>
         </div>
       </div>
     `;
-  }
-} else {
-  mapboxgl.accessToken = mapToken;
-  const map = new mapboxgl.Map({
-    container: "map",
-    center: listing.geometry.coordinates,
-    zoom: 9,
-  });
+  } else {
+    const delta = 0.01;
+    const bbox = [
+      lng - delta,
+      lat - delta,
+      lng + delta,
+      lat + delta,
+    ].join("%2C");
 
-  new mapboxgl.Marker({ color: "black" })
-    .setLngLat(listing.geometry.coordinates)
-    .setPopup(
-      new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<h4>${listing.title}</h4><p>Exact location will be shared after booking</p>`
-      )
-    )
-    .addTo(map);
+    mapContainer.innerHTML = `
+      <iframe
+        class="map-frame"
+        title="${listing.title} location map"
+        loading="lazy"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}">
+      </iframe>
+    `;
+  }
 }
 
