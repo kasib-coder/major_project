@@ -14,11 +14,3 @@ services:
         sync: false
       - key: SECRET
         sync: false
-      - key: CLOUD_NAME
-        sync: false
-      - key: CLOUD_API_KEY
-        sync: false
-      - key: CLOUD_API_SECRET
-        sync: false
-      - key: MAP_TOKEN
-        sync: false

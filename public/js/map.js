@@ -1,18 +1,36 @@
+const mapContainer = document.getElementById("map");
 
-       mapboxgl.accessToken =mapToken;
-    const map = new mapboxgl.Map({
+if (
+  !mapContainer ||
+  !mapToken ||
+  !mapToken.startsWith("pk.") ||
+  !listing?.geometry?.coordinates?.length
+) {
+  if (mapContainer) {
+    mapContainer.innerHTML = `
+      <div class="map-empty">
+        <div>
+          <h5 class="mb-2">Map preview unavailable</h5>
+          <p class="mb-0">Location details are still listed below for this property.</p>
+        </div>
+      </div>
+    `;
+  }
+} else {
+  mapboxgl.accessToken = mapToken;
+  const map = new mapboxgl.Map({
+    container: "map",
+    center: listing.geometry.coordinates,
+    zoom: 9,
+  });
 
-        container: 'map', // container ID
-        center: listing.geometry.coordinates, // starting position [lng, lat]. Note that lat must be set between -90 and 90
-        zoom: 9 // starting zoom
-    });
-
-       const marker = new mapboxgl.Marker({color:`black`})
-        .setLngLat(listing.geometry.coordinates)
-        .setPopup(new mapboxgl.Popup({offset:25})
-       .setHTML(`<h4>${listing.title}</h4><p>Exact location Will be Provide After Booking</p>` 
-
-       ) 
+  new mapboxgl.Marker({ color: "black" })
+    .setLngLat(listing.geometry.coordinates)
+    .setPopup(
+      new mapboxgl.Popup({ offset: 25 }).setHTML(
+        `<h4>${listing.title}</h4><p>Exact location will be shared after booking</p>`
+      )
     )
-        .addTo(map);
+    .addTo(map);
+}
 

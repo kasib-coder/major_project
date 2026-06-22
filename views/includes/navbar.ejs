@@ -16,14 +16,15 @@
    }
    .search-inp{
        border-radius: 25px;
-       padding: 0.5rem 3rem o.5rem 3rem;
+       padding: 0.5rem 1rem;
        font-size: 1rem;
+       min-width: 14rem;
    }
  </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings "><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
     <button class="navbar-toggler" type="button"
      data-bs-toggle="collapse"
      data-bs-target="#navbarNavAltMarkup">
@@ -35,11 +36,11 @@
         <a class="nav-link" href="/listings">Explore</a>
       </div>
 
-      <div class="navbar-nav ms-auto">
-             <form class="d-flex">
-      <input class="form-control me-2 search-inp" 
-      type="search" placeholder="Search destination">
-      <button class="btn  search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+      <div class="navbar-nav ms-auto w-100 w-md-auto">
+             <form class="search-form d-flex flex-column flex-md-row gap-2">
+      <input class="form-control search-inp" 
+      type="search" placeholder="Search destination" aria-label="Search destination">
+      <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
     </form>
       </div>
 
