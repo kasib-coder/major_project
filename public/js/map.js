@@ -1,8 +1,15 @@
 const mapContainer = document.getElementById("map");
 
 if (mapContainer) {
-  const coordinates = listing?.geometry?.coordinates;
+  let listingData = null;
 
+  try {
+    listingData = JSON.parse(mapContainer.dataset.listing || "{}");
+  } catch (error) {
+    listingData = null;
+  }
+
+  const coordinates = listingData?.geometry?.coordinates;
   if (!Array.isArray(coordinates) || coordinates.length < 2) {
     mapContainer.innerHTML = `
       <div class="map-empty">
@@ -26,17 +33,12 @@ if (mapContainer) {
       `;
     } else {
       const delta = 0.01;
-      const bbox = [
-        lng - delta,
-        lat - delta,
-        lng + delta,
-        lat + delta,
-      ].join("%2C");
+      const bbox = [lng - delta, lat - delta, lng + delta, lat + delta].join("%2C");
 
       mapContainer.innerHTML = `
         <iframe
           class="map-frame"
-          title="${listing.title} location map"
+          title="Listing location map"
           loading="lazy"
           src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}">
         </iframe>
@@ -44,4 +46,3 @@ if (mapContainer) {
     }
   }
 }
-
