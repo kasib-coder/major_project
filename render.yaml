@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: major-project
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: ATLASDB_URL
+        sync: false
+      - key: SECRET
+        sync: false
+      - key: CLOUD_NAME
+        sync: false
+      - key: CLOUD_API_KEY
+        sync: false
+      - key: CLOUD_API_SECRET
+        sync: false
+      - key: MAP_TOKEN
+        sync: false
