@@ -1,49 +1,47 @@
 const mapContainer = document.getElementById("map");
 
-if (!mapContainer) {
-  return;
-}
+if (mapContainer) {
+  const coordinates = listing?.geometry?.coordinates;
 
-const coordinates = listing?.geometry?.coordinates;
-
-if (!Array.isArray(coordinates) || coordinates.length < 2) {
-  mapContainer.innerHTML = `
-    <div class="map-empty">
-      <div>
-        <h5 class="mb-2">Map preview unavailable</h5>
-        <p class="mb-0">Location details are still listed below for this property.</p>
-      </div>
-    </div>
-  `;
-} else {
-  const [lng, lat] = coordinates.map(Number);
-
-  if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
+  if (!Array.isArray(coordinates) || coordinates.length < 2) {
     mapContainer.innerHTML = `
       <div class="map-empty">
         <div>
           <h5 class="mb-2">Map preview unavailable</h5>
-          <p class="mb-0">The saved coordinates are invalid.</p>
+          <p class="mb-0">Location details are still listed below for this property.</p>
         </div>
       </div>
     `;
   } else {
-    const delta = 0.01;
-    const bbox = [
-      lng - delta,
-      lat - delta,
-      lng + delta,
-      lat + delta,
-    ].join("%2C");
+    const [lng, lat] = coordinates.map(Number);
 
-    mapContainer.innerHTML = `
-      <iframe
-        class="map-frame"
-        title="${listing.title} location map"
-        loading="lazy"
-        src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}">
-      </iframe>
-    `;
+    if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
+      mapContainer.innerHTML = `
+        <div class="map-empty">
+          <div>
+            <h5 class="mb-2">Map preview unavailable</h5>
+            <p class="mb-0">The saved coordinates are invalid.</p>
+          </div>
+        </div>
+      `;
+    } else {
+      const delta = 0.01;
+      const bbox = [
+        lng - delta,
+        lat - delta,
+        lng + delta,
+        lat + delta,
+      ].join("%2C");
+
+      mapContainer.innerHTML = `
+        <iframe
+          class="map-frame"
+          title="${listing.title} location map"
+          loading="lazy"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}">
+        </iframe>
+      `;
+    }
   }
 }
 
